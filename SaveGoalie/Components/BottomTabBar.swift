@@ -45,7 +45,7 @@ struct BottomTabBar: View {
                 }
                 
                 TabBarButton(systemImageName: "wrench.and.screwdriver.fill", title: "Settings"){
-                    selectedTab = 2
+                    selectedTab = 1
                 }
             }
         }

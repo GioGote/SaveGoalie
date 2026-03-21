@@ -30,9 +30,7 @@ struct ContentView: View {
                 .offset(y: 20)
         }
         .sheet(isPresented: $isSavingGoalViewShowing) {
-            ScrollView {
-                NewGoalView(selectedTab: $selectedTab)
-            }
+            NewGoalView(selectedTab: $selectedTab, isSavingsGoalViewShowing: $isSavingGoalViewShowing)
         }
     }
 }
