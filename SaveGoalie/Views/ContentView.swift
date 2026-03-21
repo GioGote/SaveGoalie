@@ -18,18 +18,21 @@ struct ContentView: View {
             Tab(value: 0){
                 GoalsView(selectedTab: $selectedTab)
             }
+            
             Tab(value: 1){
-                NewGoalView(selectedTab: $selectedTab)
-            }
-            Tab(value: 2){
                 SettingsView()
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .overlay(alignment: .bottom){
-            BottomTabBar(selectedTab: $selectedTab)
+            BottomTabBar(selectedTab: $selectedTab, isSavignsGoalViewShowing: $isSavingGoalViewShowing)
                 .padding(.horizontal)
                 .offset(y: 20)
+        }
+        .sheet(isPresented: $isSavingGoalViewShowing) {
+            ScrollView {
+                NewGoalView(selectedTab: $selectedTab)
+            }
         }
     }
 }
