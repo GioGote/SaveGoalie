@@ -2,7 +2,6 @@
 //  GoalHistoryView.swift
 //  SaveGoalie
 //
-//  Created by Gio Velasco on 3/21/26.
 //
 
 import SwiftUI

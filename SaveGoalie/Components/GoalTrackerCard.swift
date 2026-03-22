@@ -76,6 +76,7 @@ struct GoalTrackerCard: View {
                 }
             }
             .buttonStyle(.plain)
+            .padding(.top, 15)
 
             if isExpanded {
                 Divider()
