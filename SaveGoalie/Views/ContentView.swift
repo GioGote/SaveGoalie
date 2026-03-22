@@ -12,7 +12,6 @@ struct ContentView: View {
     @State private var isSavingGoalViewShowing = false
     @Environment(\.modelContext) private var modelContext
     
-    // TODO: REFACTOR FROM TABVIEW TO PAGES (atleast for the new goalView)
     var body: some View{
         TabView(selection: $selectedTab) {
             Tab(value: 0){
@@ -20,7 +19,7 @@ struct ContentView: View {
             }
             
             Tab(value: 1){
-                SettingsView()
+                GoalHistoryView()
             }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))

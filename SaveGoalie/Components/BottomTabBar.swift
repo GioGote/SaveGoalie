@@ -44,7 +44,7 @@ struct BottomTabBar: View {
                     .offset(y: -20)
                 }
                 
-                TabBarButton(systemImageName: "wrench.and.screwdriver.fill", title: "Settings"){
+                TabBarButton(systemImageName: "scroll.fill", title: "History"){
                     selectedTab = 1
                 }
             }
