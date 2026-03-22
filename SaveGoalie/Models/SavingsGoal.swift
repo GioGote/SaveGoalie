@@ -2,7 +2,6 @@
 //  SavingsGoal.swift
 //  SaveGoalie
 //
-//  Created by Gio Velasco on 3/16/26.
 //
 
 import SwiftData
@@ -14,6 +13,9 @@ class SavingsGoal {
     var targetAmount: Double
     var currentAmount: Double
     var createdAt: Date
+    var completedAt: Date?
+    var isComplete: Bool = false
+    var transactions: [Transaction] = [] // an empty array of Transactions
 
     init(title: String, targetAmount: Double) {
         self.title = title
@@ -25,4 +27,44 @@ class SavingsGoal {
     var progress: Double {
         currentAmount / targetAmount
     }
+    
+    func deposit(_ amount: Double) {
+        guard amount > 0 else { return }
+        currentAmount += amount
+        transactions.append(Transaction(amount: amount, type: .deposit))
+        checkCompletion()
+    }
+
+    func withdraw(_ amount: Double) {
+        guard amount > 0 else { return }
+        currentAmount = max(0, currentAmount - amount)
+        transactions.append(Transaction(amount: amount, type: .withdrawal))
+        isComplete = false  // incomplete if funds are removed
+        completedAt = nil
+    }
+
+    private func checkCompletion() {
+        if currentAmount >= targetAmount && !isComplete {
+            isComplete = true
+            completedAt = Date()
+        }
+    }
+}
+
+// Codable lets me do DB shenanigans with the Transaction array
+struct Transaction: Codable {
+    var amount: Double
+    var date: Date
+    var type: TransactionType
+    
+    init(amount: Double, type: TransactionType) {
+        self.amount = amount
+        self.date = Date()
+        self.type = type
+    }
+}
+
+enum TransactionType: Codable {
+    case deposit
+    case withdrawal
 }

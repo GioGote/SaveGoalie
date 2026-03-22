@@ -9,6 +9,7 @@ import SwiftData
 
 struct NewGoalView: View {
     var selectedTab: Binding<Int>
+    var isSavingsGoalViewShowing: Binding<Bool>
     @Environment(\.modelContext) private var modelContext
     @State private var title = ""
     @State private var targetAmount = ""
@@ -67,6 +68,7 @@ struct NewGoalView: View {
                 title = ""
                 targetAmount = ""
                 selectedTab.wrappedValue = 0
+                isSavingsGoalViewShowing.wrappedValue = false
             } label: {
                 Text("Save Goal")
                     .foregroundColor(.white)
@@ -82,11 +84,24 @@ struct NewGoalView: View {
 
             Spacer()
             
+            Button {
+                isSavingsGoalViewShowing.wrappedValue = false
+            } label: {
+                Image(systemName: "plus.circle")
+                    .font(.title)
+                    .rotationEffect(.degrees(45))
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            
         }
     }
 }
 
 #Preview {
-    NewGoalView(selectedTab: .constant(1))
-        .modelContainer(for: SavingsGoal.self, inMemory: true)
+    Color.clear
+        .sheet(isPresented: .constant(true)) {
+            NewGoalView(selectedTab: .constant(0), isSavingsGoalViewShowing: .constant(true))
+                .modelContainer(for: SavingsGoal.self, inMemory: true)
+        }
 }

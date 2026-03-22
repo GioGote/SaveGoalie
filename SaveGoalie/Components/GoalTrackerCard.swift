@@ -9,7 +9,6 @@ import SwiftData
 
 
 struct GoalTrackerCard: View {
-    // var selectedTab: Binding<Int>
     @Bindable var goal: SavingsGoal
     var onDelete: () -> Void
     @Environment(\.modelContext) private var modelContext
@@ -18,12 +17,7 @@ struct GoalTrackerCard: View {
     @State private var showDeleteConfirmation = false
 
     var progress: Double {
-        guard goal.targetAmount > 0 else { return 0 }
-        return min(goal.currentAmount / goal.targetAmount, 1.0) // caps at 100%
-    }
-
-    var isComplete: Bool {
-        goal.currentAmount >= goal.targetAmount
+        goal.progress
     }
 
     var body: some View {
@@ -55,7 +49,7 @@ struct GoalTrackerCard: View {
                                 .frame(height: 10)
 
                             RoundedRectangle(cornerRadius: 8)
-                                .fill(isComplete ? .green : .accentColor)
+                                .fill(goal.isComplete ? .green : .accentColor)
                                 .frame(width: max(geo.size.width * progress, 0.01), height: 10)
                                 .animation(.spring(), value: progress)
                         }
@@ -68,21 +62,21 @@ struct GoalTrackerCard: View {
                             .foregroundColor(.gray)
                             .fontWeight(.semibold)
                         Spacer()
-                        Text(isComplete ? "Complete!" : "$\(goal.targetAmount, specifier: "%.2f")")
+                        Text(goal.isComplete ? "Complete!" : "$\(goal.targetAmount, specifier: "%.2f")")
                             .font(.caption)
-                            .foregroundColor(isComplete ? .green : .gray)
+                            .foregroundColor(goal.isComplete ? .green : .gray)
                             .fontWeight(.semibold)
                     }
                 }
             }
             .buttonStyle(.plain)
+            .padding(.top, 15)
 
             if isExpanded {
                 Divider()
 
                 VStack(spacing: 12) {
 
-                    // Deposit input
                     HStack {
                         TextField("Amount", text: $depositAmount)
                             .keyboardType(.decimalPad)
@@ -97,7 +91,7 @@ struct GoalTrackerCard: View {
                         Button {
                             if let amount = Double(depositAmount) {
                                 withAnimation {
-                                    goal.currentAmount = max(0, goal.currentAmount - amount)
+                                    goal.withdraw(amount)
                                 }
                                 depositAmount = ""
                             }
@@ -111,7 +105,7 @@ struct GoalTrackerCard: View {
                         Button {
                             if let amount = Double(depositAmount) {
                                 withAnimation {
-                                    goal.currentAmount += amount
+                                    goal.deposit(amount)
                                 }
                                 depositAmount = ""
                             }
@@ -141,8 +135,8 @@ struct GoalTrackerCard: View {
                                 .fontWeight(.semibold)
                         }
                     }
-                    
-                    // ── Delete Button ──
+
+                    // Delete Button
                     Button(role: .destructive) {
                         showDeleteConfirmation = true
                     } label: {
@@ -166,7 +160,6 @@ struct GoalTrackerCard: View {
                         Button("Delete", role: .destructive) {
                             withAnimation {
                                 isExpanded = false
-                                // selectedTab.wrappedValue = 0
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                 onDelete()

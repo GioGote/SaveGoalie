@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BottomTabBar: View {
     @Binding var selectedTab: Int
+    @Binding var isSavignsGoalViewShowing: Bool
     
     var body: some View {
         ZStack {
@@ -35,7 +36,7 @@ struct BottomTabBar: View {
                 .padding(.bottom, 5)
                 .overlay(alignment: .top) {
                     Button {
-                        selectedTab = 1
+                        isSavignsGoalViewShowing.toggle()
                     } label: {
                         Image(systemName: "plus.circle.dashed")
                             .font(.system(size: 55))
@@ -43,8 +44,8 @@ struct BottomTabBar: View {
                     .offset(y: -20)
                 }
                 
-                TabBarButton(systemImageName: "wrench.and.screwdriver.fill", title: "Settings"){
-                    selectedTab = 2
+                TabBarButton(systemImageName: "scroll.fill", title: "History"){
+                    selectedTab = 1
                 }
             }
         }
@@ -53,6 +54,6 @@ struct BottomTabBar: View {
 }
 
 #Preview (traits: .sizeThatFitsLayout) {
-    BottomTabBar(selectedTab: .constant(0))
+    BottomTabBar(selectedTab: .constant(0), isSavignsGoalViewShowing: .constant(false))
         .padding()
 }

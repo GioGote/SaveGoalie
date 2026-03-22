@@ -20,7 +20,6 @@ struct TabBarButton: View {
                 
                 Text(title)
                     .font(.caption)
-                    .fontWeight(.semibold)
             }
             
             .padding(.horizontal)
