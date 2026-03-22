@@ -19,7 +19,7 @@ struct ContentView: View {
         TabView(selection: $selectedTab) {
             // Tabs are my pages, use them hoes
             Tab(value: 0){
-                GoalsView(selectedTab: $selectedTab)
+                GoalsView()
             }
             
             Tab(value: 1){

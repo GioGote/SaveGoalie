@@ -10,7 +10,6 @@ import SwiftData
 struct GoalsView: View {
     @Environment(\.modelContext) private var modelContext
     @Query var goals: [SavingsGoal]
-    var selectedTab: Binding<Int>
 
     var body: some View {
         ScrollView {
