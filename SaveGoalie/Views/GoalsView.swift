@@ -13,10 +13,6 @@ struct GoalsView: View {
 
     var body: some View {
         ScrollView {
-            // temporary debug — remove later
-            Text("Goal count: \(goals.count)")
-                .font(.caption)
-                .foregroundColor(.gray)
             
             VStack(spacing: 16) {
                 if goals.isEmpty {
