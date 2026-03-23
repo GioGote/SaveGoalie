@@ -27,11 +27,12 @@ class SavingsGoal {
     var progress: Double {
         currentAmount / targetAmount
     }
-    
+    // ('_ amount: Double) provides an argument label so that the caller doesn't need to write the parameter name within the func call
     func deposit(_ amount: Double) {
         guard amount > 0 else { return }
         currentAmount += amount
         transactions.append(Transaction(amount: amount, type: .deposit))
+        // Check if complete after every deposit
         checkCompletion()
     }
 
