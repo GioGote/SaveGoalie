@@ -5,6 +5,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct GoalHistoryCard: View {
     let goal: SavingsGoal
@@ -96,4 +97,31 @@ struct TransactionRow: View {
         }
         .padding(.vertical, 4)
     }
+}
+
+#Preview("With Transactions") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: SavingsGoal.self, configurations: config)
+
+    let goal = SavingsGoal(title: "New Car", targetAmount: 5000)
+    goal.deposit(500)
+    goal.withdraw(100)
+    goal.deposit(250)
+    goal.deposit(1000)
+    
+    // won't show transactions made for seperate goals since these are all done at the same millisecond lol
+    let macbook = SavingsGoal(title: "New Macbook", targetAmount: 5000)
+    goal.deposit(500)
+    goal.withdraw(100)
+    goal.deposit(250)
+    goal.deposit(1000)
+
+    return ScrollView {
+        VStack(spacing: 16) {
+            GoalHistoryCard(goal: goal)
+            GoalHistoryCard(goal: macbook)
+        }
+        .padding(.vertical)
+    }
+    .modelContainer(container)
 }

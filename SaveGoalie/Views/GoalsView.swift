@@ -33,7 +33,7 @@ struct GoalsView: View {
                             .padding(.horizontal, 40)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 250) // pushes it toward center of screen
+                    .padding(.top, 250)
 
                 } else {
                     ForEach(goals) { goal in
@@ -49,23 +49,3 @@ struct GoalsView: View {
         }
     }
 }
-/*
-#Preview {
-    
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: SavingsGoal.self, configurations: config)
-    
-    let goals = [
-        SavingsGoal(title: "New Computer", targetAmount: 1200),
-        SavingsGoal(title: "Vacation", targetAmount: 3000),
-        SavingsGoal(title: "Emergency Fund", targetAmount: 5000),
-        SavingsGoal(title: "New Car", targetAmount: 15000)
-    ]
-
-    goals.forEach { container.mainContext.insert($0) }
-    
-    GoalsView(selectedTab: .constant(0))
-        .modelContainer(container)
-     
-}
-*/

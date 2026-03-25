@@ -180,3 +180,19 @@ struct GoalTrackerCard: View {
         .padding(.horizontal)
     }
 }
+
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: SavingsGoal.self, configurations: config)
+
+    let goal = SavingsGoal(title: "New Car", targetAmount: 5000)
+    goal.deposit(500)
+    goal.deposit(250)
+    goal.withdraw(100)
+
+    return GoalTrackerCard(
+        goal: goal,
+        onDelete: { print("Goal deleted") }
+    )
+    .modelContainer(container)
+}
