@@ -10,12 +10,16 @@ import SwiftData
 struct GoalHistoryView: View {
     @Environment(\.modelContext) private var modelContext
     @Query var goals: [SavingsGoal]
+    
+    var goalsWithTransactions: [SavingsGoal] {
+        goals.filter { !$0.transactions.isEmpty }
+    }
 
     var body: some View {
         ScrollView {
             
             VStack(spacing: 16) {
-                if goals.isEmpty {
+                if goalsWithTransactions.isEmpty {
                     
                     VStack(spacing: 12) {
                         Image(systemName: "basket")
@@ -26,7 +30,7 @@ struct GoalHistoryView: View {
                             .font(.title2)
                             .fontWeight(.bold)
 
-                        Text("Make Some Gosls and See How Far You've Come!")
+                        Text("Make Some Goals and See How Far You've Come!")
                             .font(.subheadline)
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.center)
@@ -36,15 +40,14 @@ struct GoalHistoryView: View {
                     .padding(.top, 250) // pushes it toward center of screen
 
                 } else {
-                    ForEach(goals) { goal in
-                        GoalTrackerCard(goal: goal) {
-                            modelContext.delete(goal)
-                        }
+                    ForEach(goalsWithTransactions) { goal in
+                        GoalHistoryCard(goal: goal)
                     }
                 }
             }
             .padding(.vertical)
             .padding(.bottom, 80)
+            .padding(.top, 20)
         }
     }
 }

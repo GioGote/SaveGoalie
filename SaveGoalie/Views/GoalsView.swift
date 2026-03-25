@@ -45,6 +45,7 @@ struct GoalsView: View {
             }
             .padding(.vertical)
             .padding(.bottom, 80)
+            .padding(.top, 20)
         }
     }
 }
